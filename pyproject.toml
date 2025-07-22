@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyinsp"
+version = "0.0.1"
+description = "A Python syntax inspector similar to PHP's php -l command"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "David Cloutman"}
+]
+maintainers = [
+    {name = "David Cloutman"}
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Testing",
+]
+keywords = ["python", "syntax", "inspector", "checker", "php-l"]
+requires-python = ">=3.7"
+dependencies = [
+    "click>=8.0.0"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/dcloutman/pyinsp-command"
+"Bug Reports" = "https://github.com/dcloutman/pyinsp-command/issues"
+"Source" = "https://github.com/dcloutman/pyinsp-command"
+
+[project.scripts]
+pyinsp = "bin.pyinsp:main"
+
+[tool.setuptools]
+py-modules = []
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["lib", "bin"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov",
+    "black",
+    "flake8",
+    "mypy"
+]
