@@ -33,6 +33,7 @@ pyinsp [OPTIONS] PATHS...
 ### Options
 
 - `-r`, `--recursive`: Recursively check directories
+- `-w`, `--show-warnings`: Shows both syntax errors and syntax warnings
 - `-j`, `--output-json`: Output results in JSON format (useful for files with many lines)
 
 ### Exit Codes
@@ -73,13 +74,27 @@ pip install -r requirements.txt  # if requirements.txt exists
 
 ### Building the Project
 
+### Building and Cleaning the Project
+
 To build the project, run the following command from the repository root:
 
 ```bash
-python setup.py build
+python -m build
 ```
 
-This will compile any necessary files and prepare the package for installation or distribution.
+To clean up build artifacts, use:
+
+```bash
+rm -rf build/ dist/ *.egg-info
+```
+
+### Running the Built Utility
+
+After building, you can run the utility directly from your virtual environment:
+
+```bash
+venv/bin/pyinsp --help
+```
 
 ### Running Tests
 

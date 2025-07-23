@@ -22,26 +22,28 @@ def collect_files(paths: Sequence[str], recursive: bool) -> List[Path]:
             files.extend(find_python_files(path, recursive))
     return files
 
-def display_plain(results: List[SyntaxErrorInfo]) -> None:
+def display_plain(results: List[SyntaxErrorInfo], show_warnings: bool = False) -> None:
     """Display results in plain text."""
     for result in results:
-        if result['line'] == 0:
-            print(f"{result['file']}: OK")
-        else:
-            print(f"{result['file']}:{result['line']}")
+        if result['line'] > 0:
+            if show_warnings:
+                print(f"{result['level']} {result['file']}:{result['line']}")
+            else:
+                print(f"{result['file']}:{result['line']}")
+
 
 def display_json(results: List[SyntaxErrorInfo]) -> None:
     """Display results in JSON format."""
     print(json.dumps(results, indent=2))
 
-def run_inspection(paths: Sequence[str], recursive: bool, output_json: bool) -> None:
+def run_inspection(paths: Sequence[str], recursive: bool, output_json: bool, show_warnings: bool = False) -> None:
     """Orchestrate the inspection process."""
     num_errors = 0
 
     files: list[Path] = collect_files(paths, recursive)
     results: list[SyntaxErrorInfo] = []
     for file_to_test in files:
-        test_result: bool | SyntaxErrorInfo = has_parse_errors(file_to_test)
+        test_result: bool | SyntaxErrorInfo = has_parse_errors(file_to_test, include_warnings=show_warnings)
 
         if test_result != False:
             # Test result should be a SyntaxErrorInfo object.
@@ -50,8 +52,7 @@ def run_inspection(paths: Sequence[str], recursive: bool, output_json: bool) -> 
     if output_json:
         display_json(results)
     else:
-        display_plain(results)
+        display_plain(results, show_warnings)
     # Set exit_code to 1 if any file has a syntax error
     if num_errors > 0:
         exit(1)
-    
